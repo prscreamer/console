@@ -1,5 +1,5 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
-WORKDIR /App
+WORKDIR /source/ConsoleApp
 
 # Copy everything
 COPY . ./
@@ -10,6 +10,6 @@ RUN dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
-WORKDIR /App
-COPY --from=build-env /App/out .
+WORKDIR /ConsoleApp
+COPY --from=build-env /source/ConsoleApp/out .
 ENTRYPOINT ["dotnet", "console.dll"]
